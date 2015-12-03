@@ -10,4 +10,4 @@ applications:
   path: .
   memory: 256M
   services:
-  - personality-insights-service
+  - personality-insights-service-tiered
