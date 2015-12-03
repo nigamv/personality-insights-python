@@ -33,9 +33,9 @@ class PersonalityInsightsService:
         """
 
         # Local variables
-        self.url = "<url>"
-        self.username = "<username>"
-        self.password = "<password>"
+        self.url = "https://gateway.watsonplatform.net/personality-insights/api"
+        self.username = "5ead4dc0-acec-4dd4-af40-85693191ae29"
+        self.password = "44df25hyxp00"
 
         if vcapServices is not None:
             print("Parsing VCAP_SERVICES")
@@ -57,7 +57,7 @@ class PersonalityInsightsService:
             raise Exception("No Personality Insights service is bound to this app")
         response = requests.post(self.url + "/v2/profile",
                           auth=(self.username, self.password),
-                          headers = {"content-type": "text/plain"},
+                          headers = {"content-type": "text/plain", "accept": "text/csv"},
                           data=text
                           )
         try:
@@ -98,6 +98,16 @@ class DemoService(object):
         """
         try:
             profileJson = self.service.getProfile(text)
+#             import json
+#             with open('results.json', 'w') as outfile:
+#                 json.dump(profileJson, outfile)
+            import csv
+            with open('results.csv', 'w', newline='') as fp:
+                a = csv.writer(fp, delimiter=',')
+#                 data = [['Me', 'You'],
+#                         ['293', '219'],
+#                         ['54', '13']]
+                a.writerows(profileJson)
             return json.dumps(profileJson)
         except Exception as e:
             print "ERROR: %s" % e
